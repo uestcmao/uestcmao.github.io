@@ -2,9 +2,38 @@
 <html>
 <head>
 	<title></title>
+
 </head>
 <body>
-<p>ddddd</p>
-<a href="index1.html">click me</a>
+<div id="da" data-myid="dada"><span class="node1">doudou</span></div>
+<input type="button" value="Click me" onclick="alert(this.value)">
+<template>
+	<style type="text/css">
+		p{
+			color: red;
+		}
+		::content>span{
+			font-size: 300%;
+		}
+	</style>
+	<p><content select=".node1"></content></p>
+	<p><content select=".node2"></content>	</p>
+</template>
+<script type="text/javascript">
+	var div=document.querySelector('div');
+	if (div.id) {
+		alert(div.innerHTML);
+	}
+	window.unload=function(event) {
+		alert("alert");
+	}
+	/*var len=div.childNodes.length;
+	for(var i=0;i<len;i++){
+		alert(div.childNodes[i].nodeName);
+	}*/
+	/*var myroot=div.createShadowRoot();
+	var te=document.querySelector('template').content;
+	myroot.appendChild(document.importNode(te,true));*/
+</script>
 </body>
 </html>
