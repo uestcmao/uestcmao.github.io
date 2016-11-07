@@ -1,39 +1,60 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
+---
+layout: default
+---
+{% include header.html %}
 
-</head>
-<body>
-<div id="da" data-myid="dada"><span class="node1">doudou</span></div>
-<input type="button" value="Click me" onclick="alert(this.value)">
-<template>
-	<style type="text/css">
-		p{
-			color: red;
-		}
-		::content>span{
-			font-size: 300%;
-		}
-	</style>
-	<p><content select=".node1"></content></p>
-	<p><content select=".node2"></content>	</p>
-</template>
-<script type="text/javascript">
-	var div=document.querySelector('div');
-	if (div.id) {
-		alert(div.innerHTML);
-	}
-	window.unload=function(event) {
-		alert("alert");
-	}
-	/*var len=div.childNodes.length;
-	for(var i=0;i<len;i++){
-		alert(div.childNodes[i].nodeName);
-	}*/
-	/*var myroot=div.createShadowRoot();
-	var te=document.querySelector('template').content;
-	myroot.appendChild(document.importNode(te,true));*/
-</script>
-</body>
-</html>
+<div class="list">
+{% if site.posts.size == 0 %}
+  <h2>No post found</h2>
+{% else %}
+<!-- This loops through the paginated posts -->
+{% for post in paginator.posts %}
+  <div class="list-post">
+    {% if post.link %}
+    <a href="{{ post.link }}">
+    {% else %}
+    <a href="{{ post.url | prepend: site.baseurl }}">
+    {% endif %}  
+      <div class="list-post-date">
+        <time>{{ post.date | date_to_string }}</time>
+      </div>
+      <div class="list-post-title">
+        {{ post.title }}
+      </div>
+      {% if post.description %}
+      <div class="list-post-desc">
+        {{ post.description }}
+      </div>
+      {% endif %}
+    </a>
+
+
+  </div>
+{% endfor %}
+  <!-- Pagination links -->
+  <div class="list-pagination">
+    <span class="list-pagination-previous">
+      {% if paginator.previous_page %}
+        <a href="{{ paginator.previous_page_path | prepend: site.baseurl }}" class="previous">
+          <i class="fa fa-angle-left" aria-hidden="true"></i>
+          Previous
+        </a>
+      {% else %}
+
+      {% endif %}
+    </span>
+
+    <span class="list-pagination-next">
+      {% if paginator.next_page %}
+        <a href="{{ paginator.next_page_path | prepend: site.baseurl }}" class="next">
+          Next
+          <i class="fa fa-angle-right" aria-hidden="true"></i>
+        </a>
+      {% else %}
+
+      {% endif %}
+    </span>
+
+  </div>
+{% endif %}
+</div>
