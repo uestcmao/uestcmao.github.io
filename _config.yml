@@ -3,19 +3,19 @@
 # # # # # # # # # # # # #
 
 # Basic
-name:               "Kiko Plus"
+name:               "UestcMao"
 
 
 
 author:
   name:             your-name
-  facebook:         your-id
-  twitter:          your-id
-  github:           your-id
+  facebook:         uestcmao
+  twitter:          Mr.mao
+  github:           uestcmao
   linkedin:         your-id
   medium:           your-id
   tumblr:           your-id
-  email:            your-id@your-email.com
+  email:            uestcmao@gmail.com
 
 # Google-analytics
 google-analytics:
@@ -27,7 +27,7 @@ disqus:
 
 # URL
 #url:                "https://AWEEKJ.github.io" # the base hostname & protocol for your site
-url:                "http://localhost:4000" # use this url when develop
+url:                "/" # use this url when develop
 baseurl:            "" # the subpath of your site, e.g. /blog
 
 
