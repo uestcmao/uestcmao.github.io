@@ -1,11 +1,11 @@
 ---
 layout: post
-title: Sample Link Post
-description: "This theme supports link posts, made famous by John Gruber. To use, just add `link: http://url-you-want-linked` to the post's YAML front matter and you're done."
-tags:
-  - sample post
-  - link post
+title: "Syntax Highlighting Post"
+description: "Demo post displaying the various ways of highlighting code in Markdown."
+date: 2013-08-16
+tags: [sample post, code, highlighting]
 comments: true
-link: 'http://aweekj.github.io/Kiko-plus'
+share: true
 ---
+
 这是一个`blog`的一个简单的描述
