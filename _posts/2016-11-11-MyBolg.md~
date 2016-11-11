@@ -1,0 +1,9 @@
+---
+layout:page
+title:"MyBlog"
+description: "This is my blog."
+date:2016-11-11
+tags:[introduce]
+comments:true
+share:true
+---
