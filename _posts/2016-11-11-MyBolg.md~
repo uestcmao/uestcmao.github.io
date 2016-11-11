@@ -2,7 +2,7 @@
 layout: post
 title: MyBlog
 description: "This is my blog to the post's YAML front matter and you're done supports link posts."
-date:2016-11-11
+date: 2016-11-11
 tags:[introduce]
 comments: true
 share: true
