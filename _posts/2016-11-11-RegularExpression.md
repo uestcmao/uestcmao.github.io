@@ -26,7 +26,7 @@ Result:cat
 ```
 
 ### Two
-Javascript中只把ASCII字符看作是单词字符，因此`\w`与`[a-zA-Z0-9]`是完全等同的，这意味着对于Unicode字符需要其他的方式进行匹配。
+Javascript中只把ASCII字符看作是单词字符，因此`\w`与`[a-zA-Z0-9_]`是完全等同的，这意味着对于Unicode字符需要其他的方式进行匹配。
 
 ### Three
 Javascript是不支持命名捕获分组和命名反向引用。什么是命名捕获？像这个样子`(?<day>\d\d)`为捕获的文本添加描述性的名词day。
