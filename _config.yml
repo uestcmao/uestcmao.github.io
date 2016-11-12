@@ -1,6 +1,4 @@
-# # # # # # # # # # # # #
-#   K i k o - p l u s   #
-# # # # # # # # # # # # #
+
 
 # Basic
 name:               "UestcMao"
@@ -26,7 +24,6 @@ disqus:
   id:               "your-id"
 
 # URL
-#url:                "https://AWEEKJ.github.io" # the base hostname & protocol for your site
 url:                "https://uestcmao.github.io" # use this url when develop
 baseurl:            "" # the subpath of your site, e.g. /blog
 

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>javascript正则表达式（上）</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/css/main.css" type="text/css">
+  <link rel="stylesheet" href="/assets/css/social-share-kit.css" type="text/css">
+
+  <!-- Font -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+
+  <link rel="alternate" type="application/rss+xml" title="RSS Feed for UestcMao" href="/feed.xml" />
+  <!-- Begin Jekyll SEO tag v2.1.0 -->
+<title>javascript正则表达式（上） - UestcMao</title>
+<meta property="og:title" content="javascript正则表达式（上）" />
+<meta name="description" content="javascript正则表达式基础部分的理解" />
+<meta property="og:description" content="javascript正则表达式基础部分的理解" />
+<link rel="canonical" href="http://localhost:4000/2016-11-11/RegularExpression/" />
+<meta property="og:url" content="http://localhost:4000/2016-11-11/RegularExpression/" />
+<meta property="og:site_name" content="UestcMao" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2016-11-11T00:00:00+09:00" />
+<script type="application/ld+json">
+{"@context": "http://schema.org",
+"@type": "BlogPosting",
+"headline": "javascript正则表达式（上）",
+"datePublished": "2016-11-11T00:00:00+09:00",
+"description": "javascript正则表达式基础部分的理解",
+"url": "http://localhost:4000/2016-11-11/RegularExpression/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+
+  <!-- Google Analytics -->
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', '', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+
+</head>
+
+<body>
+  <div class="content-container">
+    <header>
+  <h1 class="header-small">
+    <a href="http://localhost:4000">UestcMao</a>
+  </h1>
+</header>
+<div class="post">
+  <h1 class="post-title">javascript正则表达式（上）</h1>
+  <span class="post-date">
+    <time>11 Nov 2016</time>
+  </span>
+  <div class="post-tag">
+    <ul>
+      
+      <li>
+        <a href="http://localhost:4000/tags#RegularExpression" class="tag">
+          <span class="term">RegularExpression</span>
+        </a>
+      </li>
+      
+      
+    </ul>
+  </div>
+
+  <p>正则表达式在过去十多年间越来越普及，如今所有常用的编程语言都会包含一个强大的正则表达式函数库，或者甚至是在语言本身就内嵌了对正则表达式的支持。与IT业界流行的东西一样，正则表达式也有许多种不同的实现，以及不同程度的兼容性，这就出现了许多不同的正则表达式流派。常见的有<code class="highlighter-rouge">.NET</code>、<code class="highlighter-rouge">Java</code>、<code class="highlighter-rouge">Javascript</code>、<code class="highlighter-rouge">Perl</code>、<code class="highlighter-rouge">Python</code>和<code class="highlighter-rouge">Ruby</code>等。本文章描述的是本人对于javascript正则表达式与其他流派的一些不同。</p>
+
+<h3 id="one">One</h3>
+<p>javascript中的<code class="highlighter-rouge">.</code>是不匹配换行的，作为替代可以选择使用<code class="highlighter-rouge">[\s\S]</code>，至于标志换行<code class="highlighter-rouge">\m</code>则是影响<code class="highlighter-rouge">^ $</code>，举一个例子</p>
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="no">Pattern</span><span class="ss">:^</span><span class="n">cat</span><span class="err">$</span>
+<span class="no">Subject</span><span class="p">:</span>
+<span class="n">cat</span>
+<span class="n">cat</span>
+<span class="no">Result</span><span class="ss">:NULL</span>
+
+<span class="no">Pattern</span><span class="ss">:^</span><span class="n">cat</span><span class="vg">$\</span><span class="n">m</span>
+<span class="no">Subject</span><span class="p">:</span>
+<span class="n">cat</span>
+<span class="n">cat</span>
+<span class="no">Result</span><span class="ss">:cat</span>
+</code></pre>
+</div>
+
+<h3 id="two">Two</h3>
+<p>Javascript中只把ASCII字符看作是单词字符，因此<code class="highlighter-rouge">\w</code>与<code class="highlighter-rouge">[a-zA-Z0-9]</code>是完全等同的，这意味着对于Unicode字符需要其他的方式进行匹配。</p>
+
+<h3 id="three">Three</h3>
+<p>Javascript是不支持命名捕获分组和命名反向引用。什么是命名捕获？像这个样子<code class="highlighter-rouge">(?&lt;day&gt;\d\d)</code>为捕获的文本添加描述性的名词day。</p>
+
+<h3 id="four">Four</h3>
+<p>为了消除不必要的回溯，大部分语言都占有量词和原子分组的解决方案，但Javascript并不支持这两个。占有量词形式类似<code class="highlighter-rouge">\b\d++\b</code>，原子分组的形式<code class="highlighter-rouge">(?&gt;</code>,这两种解决方案都不会记住回溯位置，但是处理的方式还是存在着区别，有兴趣的朋友可以去相关资料仔细了解下。</p>
+
+<h3 id="five">Five</h3>
+<p>如果你想要检查一个匹配，但是不添加到整体匹配中，那你需要使用<code class="highlighter-rouge">环视</code>。环视拥有特殊的性质，可以放弃在环视内部的正则表达式部分匹配的文本，实质上，环视会检查某些文本是否可以被匹配，但是不会实际去匹配它。</p>
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="no">Pattern</span><span class="p">:(</span><span class="sc">?&lt;</span><span class="o">=&lt;</span><span class="n">b</span><span class="o">&gt;</span><span class="p">)\</span><span class="n">w</span><span class="o">+</span><span class="p">(</span><span class="sc">?=</span><span class="o">&lt;</span><span class="sr">/b&gt;)
+Subject:
+&lt;b&gt;cat&lt;/</span><span class="n">b</span><span class="o">&gt;</span>
+<span class="no">Result</span><span class="ss">:cat</span>
+</code></pre>
+</div>
+<p>从上诉例子中可以看到只匹配了cat，<b>和</b>并未匹配。遗憾的是Javascript并不支持<code class="highlighter-rouge">(?&lt;=</code>,也就算肯定型逆序环视，不过肯定型顺序环视<code class="highlighter-rouge">(?=</code>倒是支持的，另外否定性顺序环视同样支持。如果你想要用Javascript模拟逆序环视，也是可以做到的。</p>
+
+<h3 id="six">Six</h3>
+<p>Javascript不支持向正则表达式中添加注视。</p>
+
+<h3 id="seven">Seven</h3>
+<p>在替代文本中，Javascript把反斜杠<code class="highlighter-rouge">\</code>当作一个字面字符，不需要再用另外一个<code class="highlighter-rouge">\</code>来对它进行转义，否则会得到两个反斜杠。单个出现的美元符号也是一个字面字符，只有当它们之后是一个数字、&amp;、反引号、垂直引号、下划线、加号或者另外一个美元符号的时候，才需要被转义，转义一个美元符号，只需要再加一个美元符号。</p>
+
+<h3 id="eight">eight</h3>
+<p>在Javascript的替代文本中<code class="highlighter-rouge">$&amp;</code>来表示整个匹配，如果存在分组，则<code class="highlighter-rouge">$1</code>来表示第一个捕获分组匹配到的文本，依次类推。你也许会想到<code class="highlighter-rouge">$10</code>这中情况，这里存在着二义性，可以被解释为第10个分组或者是第一个分组后面跟着一个0。这一方面Javascript使用了聪明的办法，如果存在着第10个捕获分组，则这两个数字被用于捕获分组，否则为另一种解释。如果你引用了不存在的分组，Javascript会把不存在的分组的引用当作是替代文本的字面文本。</p>
+
+<h3 id="nine">Nine</h3>
+<p>Javascript在替代文本中使用”$`“和”$’“来表示左右上下文。</p>
+
+<h3 id="ten">Ten</h3>
+<p>Javascript的反向引用与其他流派不同。Javascript对一个还没有参与匹配的分组的反向引用总是会匹配成功，相当于捕获了长度为0的匹配的分组的反向引用。比如:</p>
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="p">\</span><span class="n">d</span><span class="p">\</span><span class="n">d</span><span class="p">\</span><span class="mi">1</span><span class="o">-</span><span class="p">\</span><span class="mi">1</span><span class="o">-</span><span class="p">\</span><span class="n">d</span><span class="p">\</span><span class="n">d</span>
+</code></pre>
+</div>
+<p>在Javascript中是不算错误的,而且会匹配成功<code class="highlighter-rouge">20--20</code></p>
+
+<p>最后推荐几个可以在线验证正则表达式的网站<a href="http://regex.larsolavtorvik.com/">http://regex.larsolavtorvik.com/</a>和
+<a href="http://www.regexpal.com/">http://www.regexpal.com/</a></p>
+
+
+
+
+  <!-- Share -->
+  
+  <div class="post-share">
+    <hr>
+    <span>Share this: <br /></span>
+<a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2016-11-11/RegularExpression/" onclick="window.open(this.href, 'mywin',
+'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" class="ssk ssk-icon ssk-facebook"></a>
+<a href="https://twitter.com/intent/tweet?text=javascript正则表达式（上）&url=http://localhost:4000/2016-11-11/RegularExpression/" onclick="window.open(this.href, 'mywin',
+'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" class="ssk ssk-icon ssk-twitter"></a>
+<a href="https://plus.google.com/share?url=http://localhost:4000/2016-11-11/RegularExpression/" onclick="window.open(this.href, 'mywin',
+'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" class="ssk ssk-icon ssk-google-plus"></a>
+<a href="https://www.tumblr.com/share?url=http://localhost:4000/2016-11-11/RegularExpression/" onclick="window.open(this.href, 'mywin',
+'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" class="ssk ssk-icon ssk-tumblr"></a>
+<a href="mailto:?subject=javascript正则表达式（上）&amp;body=Check out this site http://localhost:4000/2016-11-11/RegularExpression/" class="ssk ssk-icon ssk-email"></a>
+
+    <hr>
+  </div>
+  
+
+  <!-- Disqus -->
+  
+  <section id="disqus_thread"></section>
+  <script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = '//your-id.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+</div>
+
+
+    <!-- Documents about icons are here: http://fontawesome.io/icons/ -->
+<div class="footer">
+	<hr />
+	<div class="footer-link">
+		
+		<a href="https://www.facebook.com/uestcmao"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+		
+
+		
+		<a href="https://twitter.com/Mr.mao"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+		
+
+		
+		<a href="https://github.com/uestcmao"><i class="fa fa-github" aria-hidden="true"></i></a>
+		
+
+		
+		<a href="https://www.linkedin.com/in/your-id"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+		
+
+		
+		<a href="https://medium.com/@your-id"><i class="fa fa-medium" aria-hidden="true"></i></a>
+		
+
+		
+		<a href="https://your-id.tumblr.com"><i class="fa fa-tumblr" aria-hidden="true"></i></a>
+		
+
+		
+		<a href="mailto:uestcmao@gmail.com"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+		
+
+	</div>
+	© 2016 uestcmao. All rights reserved.
+</div>
+
+  </div>
+</body>
+</html>

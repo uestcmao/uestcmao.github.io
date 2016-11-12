@@ -6,12 +6,70 @@
 		<atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
-				<title>MYBLOG</title>
-        <description>&lt;p&gt;这是一个&lt;code class=&quot;highlighter-rouge&quot;&gt;blog&lt;/code&gt;的一个简单的描述&lt;/p&gt;
+				<title>javascript正则表达式（上）</title>
+        <description>&lt;p&gt;正则表达式在过去十多年间越来越普及，如今所有常用的编程语言都会包含一个强大的正则表达式函数库，或者甚至是在语言本身就内嵌了对正则表达式的支持。与IT业界流行的东西一样，正则表达式也有许多种不同的实现，以及不同程度的兼容性，这就出现了许多不同的正则表达式流派。常见的有&lt;code class=&quot;highlighter-rouge&quot;&gt;.NET&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;Java&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;Javascript&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;Perl&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;Python&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;Ruby&lt;/code&gt;等。本文章描述的是本人对于javascript正则表达式与其他流派的一些不同。&lt;/p&gt;
+
+&lt;h3 id=&quot;one&quot;&gt;One&lt;/h3&gt;
+&lt;p&gt;javascript中的&lt;code class=&quot;highlighter-rouge&quot;&gt;.&lt;/code&gt;是不匹配换行的，作为替代可以选择使用&lt;code class=&quot;highlighter-rouge&quot;&gt;[\s\S]&lt;/code&gt;，至于标志换行&lt;code class=&quot;highlighter-rouge&quot;&gt;\m&lt;/code&gt;则是影响&lt;code class=&quot;highlighter-rouge&quot;&gt;^ $&lt;/code&gt;，举一个例子&lt;/p&gt;
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;no&quot;&gt;Pattern&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:^&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cat&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;
+&lt;span class=&quot;no&quot;&gt;Subject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;cat&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;cat&lt;/span&gt;
+&lt;span class=&quot;no&quot;&gt;Result&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:NULL&lt;/span&gt;
+
+&lt;span class=&quot;no&quot;&gt;Pattern&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:^&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cat&lt;/span&gt;&lt;span class=&quot;vg&quot;&gt;$\&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;m&lt;/span&gt;
+&lt;span class=&quot;no&quot;&gt;Subject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;cat&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;cat&lt;/span&gt;
+&lt;span class=&quot;no&quot;&gt;Result&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:cat&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;two&quot;&gt;Two&lt;/h3&gt;
+&lt;p&gt;Javascript中只把ASCII字符看作是单词字符，因此&lt;code class=&quot;highlighter-rouge&quot;&gt;\w&lt;/code&gt;与&lt;code class=&quot;highlighter-rouge&quot;&gt;[a-zA-Z0-9]&lt;/code&gt;是完全等同的，这意味着对于Unicode字符需要其他的方式进行匹配。&lt;/p&gt;
+
+&lt;h3 id=&quot;three&quot;&gt;Three&lt;/h3&gt;
+&lt;p&gt;Javascript是不支持命名捕获分组和命名反向引用。什么是命名捕获？像这个样子&lt;code class=&quot;highlighter-rouge&quot;&gt;(?&amp;lt;day&amp;gt;\d\d)&lt;/code&gt;为捕获的文本添加描述性的名词day。&lt;/p&gt;
+
+&lt;h3 id=&quot;four&quot;&gt;Four&lt;/h3&gt;
+&lt;p&gt;为了消除不必要的回溯，大部分语言都占有量词和原子分组的解决方案，但Javascript并不支持这两个。占有量词形式类似&lt;code class=&quot;highlighter-rouge&quot;&gt;\b\d++\b&lt;/code&gt;，原子分组的形式&lt;code class=&quot;highlighter-rouge&quot;&gt;(?&amp;gt;&lt;/code&gt;,这两种解决方案都不会记住回溯位置，但是处理的方式还是存在着区别，有兴趣的朋友可以去相关资料仔细了解下。&lt;/p&gt;
+
+&lt;h3 id=&quot;five&quot;&gt;Five&lt;/h3&gt;
+&lt;p&gt;如果你想要检查一个匹配，但是不添加到整体匹配中，那你需要使用&lt;code class=&quot;highlighter-rouge&quot;&gt;环视&lt;/code&gt;。环视拥有特殊的性质，可以放弃在环视内部的正则表达式部分匹配的文本，实质上，环视会检查某些文本是否可以被匹配，但是不会实际去匹配它。&lt;/p&gt;
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;no&quot;&gt;Pattern&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:(&lt;/span&gt;&lt;span class=&quot;sc&quot;&gt;?&amp;lt;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)\&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;w&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;sc&quot;&gt;?=&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/b&amp;gt;)
+Subject:
+&amp;lt;b&amp;gt;cat&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;no&quot;&gt;Result&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:cat&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;从上诉例子中可以看到只匹配了cat，&lt;b&gt;和&lt;/b&gt;并未匹配。遗憾的是Javascript并不支持&lt;code class=&quot;highlighter-rouge&quot;&gt;(?&amp;lt;=&lt;/code&gt;,也就算肯定型逆序环视，不过肯定型顺序环视&lt;code class=&quot;highlighter-rouge&quot;&gt;(?=&lt;/code&gt;倒是支持的，另外否定性顺序环视同样支持。如果你想要用Javascript模拟逆序环视，也是可以做到的。&lt;/p&gt;
+
+&lt;h3 id=&quot;six&quot;&gt;Six&lt;/h3&gt;
+&lt;p&gt;Javascript不支持向正则表达式中添加注视。&lt;/p&gt;
+
+&lt;h3 id=&quot;seven&quot;&gt;Seven&lt;/h3&gt;
+&lt;p&gt;在替代文本中，Javascript把反斜杠&lt;code class=&quot;highlighter-rouge&quot;&gt;\&lt;/code&gt;当作一个字面字符，不需要再用另外一个&lt;code class=&quot;highlighter-rouge&quot;&gt;\&lt;/code&gt;来对它进行转义，否则会得到两个反斜杠。单个出现的美元符号也是一个字面字符，只有当它们之后是一个数字、&amp;amp;、反引号、垂直引号、下划线、加号或者另外一个美元符号的时候，才需要被转义，转义一个美元符号，只需要再加一个美元符号。&lt;/p&gt;
+
+&lt;h3 id=&quot;eight&quot;&gt;eight&lt;/h3&gt;
+&lt;p&gt;在Javascript的替代文本中&lt;code class=&quot;highlighter-rouge&quot;&gt;$&amp;amp;&lt;/code&gt;来表示整个匹配，如果存在分组，则&lt;code class=&quot;highlighter-rouge&quot;&gt;$1&lt;/code&gt;来表示第一个捕获分组匹配到的文本，依次类推。你也许会想到&lt;code class=&quot;highlighter-rouge&quot;&gt;$10&lt;/code&gt;这中情况，这里存在着二义性，可以被解释为第10个分组或者是第一个分组后面跟着一个0。这一方面Javascript使用了聪明的办法，如果存在着第10个捕获分组，则这两个数字被用于捕获分组，否则为另一种解释。如果你引用了不存在的分组，Javascript会把不存在的分组的引用当作是替代文本的字面文本。&lt;/p&gt;
+
+&lt;h3 id=&quot;nine&quot;&gt;Nine&lt;/h3&gt;
+&lt;p&gt;Javascript在替代文本中使用”$`“和”$’“来表示左右上下文。&lt;/p&gt;
+
+&lt;h3 id=&quot;ten&quot;&gt;Ten&lt;/h3&gt;
+&lt;p&gt;Javascript的反向引用与其他流派不同。Javascript对一个还没有参与匹配的分组的反向引用总是会匹配成功，相当于捕获了长度为0的匹配的分组的反向引用。比如:&lt;/p&gt;
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;d&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;在Javascript中是不算错误的,而且会匹配成功&lt;code class=&quot;highlighter-rouge&quot;&gt;20--20&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;最后推荐几个可以在线验证正则表达式的网站&lt;a href=&quot;http://regex.larsolavtorvik.com/&quot;&gt;http://regex.larsolavtorvik.com/&lt;/a&gt;和
+&lt;a href=&quot;http://www.regexpal.com/&quot;&gt;http://www.regexpal.com/&lt;/a&gt;&lt;/p&gt;
+
 </description>
-				<pubDate>Fri, 16 Aug 2013 00:00:00 +0900</pubDate>
-				<link>http://localhost:4000/2013-08-16/MyBolg/</link>
-				<guid isPermaLink="true">http://localhost:4000/2013-08-16/MyBolg/</guid>
+				<pubDate>Fri, 11 Nov 2016 00:00:00 +0900</pubDate>
+				<link>http://localhost:4000/2016-11-11/RegularExpression/</link>
+				<guid isPermaLink="true">http://localhost:4000/2016-11-11/RegularExpression/</guid>
 			</item>
 		
 	</channel>
